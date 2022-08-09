@@ -53,13 +53,6 @@ desc: 'Well done.You have reach the end.'
     });
 
   }
- // List<String> questionkeeper =[
- //  'Beyza\'s favorite color is green.',
- //  'Beyza\'s favorite tv series is The Walking Dead',
- //  'Beyza is not fearless.',
- //];
- //  List<bool> checkanswer=[false, true, true,];
- // Question q1 =Question(q:    'Beyza\'s favorite color is green.',a: false);
 
 
 
