@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-
+import 'package:quizzler/question.dart';
+import 'quiz_brain.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+QuizBrain quizBrain =new QuizBrain();
 void main() => runApp(Quizzler());
 
 class Quizzler extends StatelessWidget {
@@ -25,12 +28,41 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
-  List<Icon> scorekeeper =[];
-  List<String> questionkeeper =[
-    'Beyza\'s favorite color is green.',
-    'Beyza\'s favorite tv series is The Walking Dead',
-    'Beyza is not fearless.',
+  List<Icon> scorekeeper =[
   ];
+  void checkAnswer(bool usersPick){
+    bool correctAnswer=quizBrain.getAnswer();
+    setState(() {
+      if(quizBrain.isFinished()==true){
+        Alert(
+          context: context,
+          title:'The End!',
+desc: 'Well done.You have reach the end.'
+        ).show();
+        quizBrain.reset();
+        scorekeeper=[];
+      }else {
+        if (usersPick == correctAnswer) {
+          scorekeeper.add(Icon(Icons.check, color: Colors.green,));
+        } else {
+          scorekeeper.add(Icon(Icons.close, color: Colors.red,));
+        }
+
+        quizBrain.nextQuestion();
+      }
+    });
+
+  }
+ // List<String> questionkeeper =[
+ //  'Beyza\'s favorite color is green.',
+ //  'Beyza\'s favorite tv series is The Walking Dead',
+ //  'Beyza is not fearless.',
+ //];
+ //  List<bool> checkanswer=[false, true, true,];
+ // Question q1 =Question(q:    'Beyza\'s favorite color is green.',a: false);
+
+
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -43,7 +75,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                'This is where the question   will go.',
+                quizBrain.getQuestionText(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -67,16 +99,9 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                //The user picked true.
-                setState(() {
-                  scorekeeper.add(
-                      Icon(Icons.check,
-                        color:Colors.green,
-                      ),
-                  );
-                });
+                checkAnswer(true);
+                },
 
-              },
             ),
           ),
         ),
@@ -93,12 +118,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                setState(() {
-                  scorekeeper.add(Icon(
-                    Icons.close,
-                    color: Colors.red,
-                  ));
-                });
+  checkAnswer(false);
                 //The user picked false.
               },
             ),
@@ -112,8 +132,8 @@ class _QuizPageState extends State<QuizPage> {
   }
 }
 
-/*
- 'Beyza\'s favorite color is green.',
- 'Beyza\'s favorite tv series is The Walking Dead',
- 'Beyza is not fearless.',
-*/
+
+
+
+
+
